@@ -235,6 +235,9 @@
             'Quantity', 'Length', 'Part_No', 'Description_Language', 'SheetNo'
         ];
 
+        const API_URL = `${window.location.origin}/api/components`;
+        const API_BULK_URL = `${window.location.origin}/api/components/bulk`;
+
         const mandatoryColumns = ['DrawingId', 'LineId', 'RevNo', 'SpoolNo', 'ItemCode', 'Quantity'];
         let workbook = null;
         let excelHeaders = [];
@@ -356,7 +359,7 @@
                 proceedBtn.disabled = true;
                 proceedBtn.textContent = 'Uploading...';
                 
-                const response = await fetch('http://localhost:3000/api/components/bulk', {
+                const response = await fetch(API_BULK_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(uploadData)
@@ -405,9 +408,7 @@
         const saveBtn = document.getElementById('saveComponent');
         const tableBody = document.getElementById('tableBody');
 
-        const API_URL = 'http://localhost:3000/api/components';
-
-        // Helper to convert Feet-Inch string to Decimal linear feet
+        // API_URL defined at top of script (same-origin for Render / local)
         function feetInchToDecimal(str) {
             if (!str || typeof str !== 'string') return 0;
             const regex = /^(?:(\d+)')?\s*-?\s*(?:(\d+)(?:\s+(\d+)\/(\d+))?")?$/;
